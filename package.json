@@ -1,0 +1,41 @@
+{
+  "name": "ingenix",
+  "version": "1.0.0",
+  "description": "Tired of fixing your project structure later? Ingenix helps you get it right from the start.",
+  "main": "index.js",
+  "bin": {
+    "ingenix": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yokesh-ks/ingenix.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yokesh-ks/ingenix/issues"
+  },
+  "homepage": "https://github.com/yokesh-ks/ingenix#readme",
+  "dependencies": {
+    "@inquirer/prompts": "^8.4.1",
+    "chalk": "^5.4.1",
+    "figlet": "^1.8.0",
+    "gradient-string": "^3.0.0"
+  },
+  "devDependencies": {
+    "@types/figlet": "^1.7.0",
+    "@types/gradient-string": "^1.1.6",
+    "@types/node": "^25.6.0",
+    "commander": "^14.0.3",
+    "tsx": "^4.21.0",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.4"
+  }
+}
