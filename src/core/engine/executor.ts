@@ -1,6 +1,6 @@
-import { mkdirSync, writeFileSync } from 'fs';
+import { mkdir, writeFile } from 'fs/promises';
 import path from 'path';
-import { copyTemplate } from '../../utils/fs';
+import { copyTemplate } from '../../utils/fs.js';
 import type { ExecutionPlan, Task } from './types.js';
 
 function getTemplatesDir(): string {
@@ -16,17 +16,17 @@ export async function executePlan(plan: ExecutionPlan): Promise<void> {
     try {
       switch (task.type) {
         case 'create-dir':
-          mkdirSync(task.path, { recursive: true });
-          console.log(`✔ Creating directory at ${task.path}`);
+          await mkdir(task.path, { recursive: true });
+          console.log(`✔ create-dir ${task.path}`);
           break;
         case 'copy-template':
           const templatePath = path.join(templatesDir, task.from);
           await copyTemplate(templatePath, task.to);
-          console.log(`✔ Copying ${task.from} template to ${task.to}`);
+          console.log(`✔ copy-template ${task.from} → ${task.to}`);
           break;
         case 'write-file':
-          writeFileSync(task.path, task.content, 'utf-8');
-          console.log(`✔ Writing file at ${task.path}`);
+          await writeFile(task.path, task.content, 'utf-8');
+          console.log(`✔ write-file ${task.path}`);
           break;
         default:
           const _exhaustive: never = task;

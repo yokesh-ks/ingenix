@@ -1,7 +1,8 @@
 import type { Context } from '../../core/engine/types.js';
 import type { Task } from '../../core/engine/types.js';
+import type { IngenixPlugin } from '../../core/engine/plugin.js';
 
-export function generate(ctx: Context): Task[] {
+function generateReact(ctx: Context): Task[] {
   return [
     {
       type: "copy-template",
@@ -10,3 +11,10 @@ export function generate(ctx: Context): Task[] {
     }
   ];
 }
+
+export const reactPlugin: IngenixPlugin = {
+  name: "frontend-react",
+  apply(ctx) {
+    return generateReact(ctx);
+  }
+};
