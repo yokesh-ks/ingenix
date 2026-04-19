@@ -1,11 +1,20 @@
 import type { IngenixConfig, Architecture, AppType, FrontendFramework, BackendFramework } from './types.js';
 
 export function buildSingleAppConfig(name: string, appType: AppType): IngenixConfig {
-  return {
+  const config: IngenixConfig = {
     name: name.trim(),
     architecture: 'single',
     appType
   };
+  if (appType === 'frontend') {
+    (config as any).frontend = 'react';
+  } else if (appType === 'backend') {
+    (config as any).backend = 'fastify';
+  } else if (appType === 'fullstack') {
+    (config as any).frontend = 'next';
+    (config as any).backend = 'fastify';
+  }
+  return config;
 }
 
 export function buildMonorepoConfig(

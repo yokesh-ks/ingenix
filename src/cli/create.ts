@@ -1,11 +1,14 @@
 import { input, select } from '@inquirer/prompts';
 import type { IngenixConfig } from '../core/config/types.js';
+import type { Context } from '../core/engine/types.js';
 import { validateConfig } from '../core/validator/index.js';
 import { writeConfigFile } from '../core/config/writer.js';
 import { buildSingleAppConfig, buildMonorepoConfig, isCompleteConfig } from '../core/config/builder.js';
 import { UserCancelledError, ValidationError, FileSystemError } from '../core/errors.js';
 import { renderBanner, renderSuccessScreen, renderErrors } from '../ui/renderer.js';
 import { MESSAGES } from '../constants/messages.js';
+import { planExecution } from '../core/engine/planner.js';
+import { executePlan } from '../core/engine/executor.js';
 
 export async function createCommand(): Promise<IngenixConfig> {
   renderBanner();
@@ -79,6 +82,16 @@ export async function createCommand(): Promise<IngenixConfig> {
     } catch (error) {
       throw new FileSystemError('Failed to write configuration file', error);
     }
+
+    // Build context and execute plan
+    const ctx: Context = {
+      root: process.cwd(),
+      config
+    };
+
+    const plan = await planExecution(ctx);
+    await executePlan(plan);
+    console.log('Project generation completed successfully!');
 
     renderSuccessScreen(config);
     
